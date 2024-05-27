@@ -13,6 +13,18 @@ fun getMapkitApiKey(): String {
     return properties.getProperty("MAPKIT_API_KEY", "")
 }
 
+fun getNavApiKey(): String {
+    val properties = Properties()
+    rootProject.file("local.properties").inputStream().use { properties.load(it) }
+    return properties.getProperty("NAV_API_KEY", "")
+}
+
+fun getGeoApiKey(): String {
+    val properties = Properties()
+    rootProject.file("local.properties").inputStream().use { properties.load(it) }
+    return properties.getProperty("GEO_API_KEY", "")
+}
+
 android {
     namespace = "com.example.mapsnavigation"
     compileSdk = 34
@@ -29,6 +41,8 @@ android {
             useSupportLibrary = true
         }
         buildConfigField("String", "MAPKIT_API_KEY", "\"${getMapkitApiKey()}\"")
+        buildConfigField("String", "NAV_API_KEY", "\"${getNavApiKey()}\"")
+        buildConfigField("String", "GEO_API_KEY", "\"${getGeoApiKey()}\"")
     }
 
 
@@ -84,8 +98,15 @@ dependencies {
     implementation("com.yandex.android:maps.mobile:4.6.1-lite")
     implementation("com.google.accompanist:accompanist-permissions:0.35.1-alpha")
     implementation ("com.google.android.gms:play-services-location:18.0.0")
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("com.google.android.gms:play-services-tasks:18.0.0")
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10")
 }
 
 kapt {
